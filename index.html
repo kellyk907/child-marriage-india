@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The State of Child Marriage in India — A Program Evaluation Analysis</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --rose-900: #4a1525;
+  --rose-800: #7b2340;
+  --rose-700: #9e2e52;
+  --rose-600: #c0394f;
+  --rose-500: #d4607a;
+  --rose-300: #ebb3c0;
+  --rose-100: #fce8ed;
+  --rose-50:  #fef5f7;
+  --teal: #1d9e75;
+  --teal-light: #e1f5ee;
+  --amber: #c8860a;
+  --amber-light: #fef3dc;
+  --blue: #2d6fa5;
+  --blue-light: #ddeef9;
+  --text: #1a0a10;
+  --text-muted: #7a4a58;
+  --border: #f0d0d8;
+  --bg: #fef5f7;
+  --white: #ffffff;
+  --sans: 'DM Sans', -apple-system, sans-serif;
+  --serif: 'DM Serif Display', Georgia, serif;
+}
+
+body { font-family: var(--sans); background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; }
+
+/* HERO */
+.hero {
+  background: var(--rose-900);
+  color: white; padding: 72px 40px 64px;
+  position: relative; overflow: hidden;
+  min-height: 420px; display: flex; align-items: center;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 80% 50%, rgba(160,40,70,0.4) 0%, transparent 60%);
+}
+.hero-inner { max-width: 760px; margin: 0 auto; position: relative; z-index: 1; }
+.hero-eyebrow { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--rose-300); font-weight: 500; margin-bottom: 20px; }
+.hero h1 { font-family: var(--serif); font-size: clamp(30px, 5vw, 52px); font-weight: 400; line-height: 1.15; margin-bottom: 20px; }
+.hero h1 em { font-style: italic; color: var(--rose-300); }
+.hero-lede { font-size: 16px; color: rgba(255,255,255,0.75); max-width: 560px; line-height: 1.75; margin-bottom: 28px; }
+.hero-stat { display: inline-flex; flex-direction: column; margin-right: 32px; }
+.hero-stat-val { font-family: var(--serif); font-size: 40px; color: white; line-height: 1; }
+.hero-stat-label { font-size: 12px; color: var(--rose-300); margin-top: 4px; }
+.hero-stats { display: flex; flex-wrap: wrap; gap: 8px 0; margin-top: 8px; }
+
+/* NARRATIVE SECTIONS */
+.narrative { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+.chapter {
+  padding: 64px 0 48px;
+  border-bottom: 1px solid var(--border);
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.chapter.visible { opacity: 1; transform: translateY(0); }
+.chapter:last-child { border-bottom: none; }
+
+.chapter-num { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; margin-bottom: 12px; }
+.chapter h2 { font-family: var(--serif); font-size: clamp(22px, 3vw, 32px); font-weight: 400; line-height: 1.3; margin-bottom: 16px; color: var(--rose-800); }
+.chapter-lede { font-size: 16px; line-height: 1.75; color: var(--text); margin-bottom: 28px; max-width: 640px; }
+.chapter-body { font-size: 14px; line-height: 1.8; color: #4a2a35; margin-bottom: 24px; max-width: 640px; }
+
+/* PULL QUOTE */
+.pull-quote {
+  border-left: 3px solid var(--rose-600);
+  padding: 16px 20px; margin: 28px 0;
+  background: var(--rose-50); border-radius: 0 8px 8px 0;
+}
+.pull-quote p { font-family: var(--serif); font-size: 18px; color: var(--rose-800); line-height: 1.6; font-style: italic; }
+.pull-quote cite { font-size: 12px; color: var(--text-muted); margin-top: 6px; display: block; font-style: normal; }
+
+/* DATA CALLOUTS */
+.data-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 28px 0; }
+.data-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 18px 16px; }
+.data-card.highlight { background: var(--rose-900); border-color: var(--rose-900); }
+.data-val { font-family: var(--serif); font-size: 32px; line-height: 1; margin-bottom: 5px; color: var(--rose-700); }
+.data-card.highlight .data-val { color: white; }
+.data-label { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+.data-card.highlight .data-label { color: var(--rose-300); }
+.data-delta { font-size: 11px; font-weight: 600; margin-top: 4px; }
+.delta-good { color: var(--teal); }
+.delta-bad { color: var(--rose-600); }
+
+/* CHART CARDS */
+.chart-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 22px; margin: 28px 0; box-shadow: 0 1px 4px rgba(74,21,37,0.06); }
+.chart-title { font-size: 14px; font-weight: 600; color: var(--rose-800); margin-bottom: 4px; }
+.chart-subtitle { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+.legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); }
+.legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+/* STATE BARS */
+.state-bar-list { display: flex; flex-direction: column; gap: 8px; margin: 16px 0; }
+.state-bar-item { display: flex; align-items: center; gap: 10px; }
+.state-bar-label { font-size: 12px; color: var(--text); min-width: 120px; text-align: right; }
+.state-bar-track { flex: 1; height: 22px; background: var(--rose-50); border-radius: 4px; overflow: hidden; position: relative; }
+.state-bar-fill { height: 100%; border-radius: 4px; transition: width 1s ease; display: flex; align-items: center; justify-content: flex-end; padding-right: 6px; }
+.state-bar-val { font-size: 11px; font-weight: 600; color: white; }
+.state-bar-avg { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--amber); opacity: 0.8; }
+
+/* DRIVER CARDS */
+.driver-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0; }
+.driver-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+.driver-icon { font-size: 20px; margin-bottom: 8px; }
+.driver-title { font-size: 13px; font-weight: 600; color: var(--rose-800); margin-bottom: 5px; }
+.driver-text { font-size: 12px; color: var(--text-muted); line-height: 1.55; }
+.driver-stat { font-size: 13px; font-weight: 600; color: var(--rose-600); margin-top: 6px; }
+
+/* RECOMMENDATION CARDS */
+.rec-stack { display: flex; flex-direction: column; gap: 12px; margin: 24px 0; }
+.rec-card { display: flex; gap: 14px; background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+.rec-num { font-family: var(--serif); font-size: 28px; color: var(--rose-200, #f0a0b0); line-height: 1; min-width: 32px; color: var(--rose-300); }
+.rec-body {}
+.rec-title { font-size: 13px; font-weight: 600; color: var(--rose-800); margin-bottom: 4px; }
+.rec-text { font-size: 12px; color: var(--text-muted); line-height: 1.55; }
+.rec-evidence { font-size: 11px; color: var(--teal); font-weight: 600; margin-top: 5px; }
+
+/* CLOSING */
+.closing {
+  background: var(--rose-900); color: white;
+  padding: 56px 40px; text-align: center;
+  margin-top: 0;
+}
+.closing h2 { font-family: var(--serif); font-size: clamp(22px, 3vw, 32px); margin-bottom: 16px; font-weight: 400; }
+.closing p { font-size: 14px; color: rgba(255,255,255,0.7); max-width: 520px; margin: 0 auto 28px; line-height: 1.7; }
+.closing-sdg { display: inline-block; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 10px 20px; font-size: 13px; color: var(--rose-300); margin-bottom: 28px; }
+
+/* SOURCES */
+.sources-section { max-width: 760px; margin: 0 auto; padding: 40px 24px; }
+.sources-title { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.source-item { display: flex; gap: 10px; margin-bottom: 8px; font-size: 13px; }
+.source-num { color: var(--text-muted); min-width: 18px; font-weight: 600; }
+.source-item a { color: var(--rose-700); text-decoration: none; line-height: 1.5; }
+.source-item a:hover { text-decoration: underline; }
+
+.footer { text-align: center; padding: 20px; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border); }
+
+/* PROGRESS BAR */
+.reading-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--rose-600); z-index: 100; transition: width 0.1s linear; width: 0%; }
+
+@media (max-width: 600px) {
+  .hero { padding: 48px 20px; }
+  .driver-grid { grid-template-columns: 1fr; }
+  .data-row { grid-template-columns: 1fr 1fr; }
+  .closing { padding: 40px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="reading-bar" id="readingBar"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Independent Program Evaluation Analysis · India · NFHS-5 Data</p>
+    <h1>The State of Child Marriage<br>in <em>India</em></h1>
+    <p class="hero-lede">Despite decades of legal reform and social programming, 1 in 5 girls in India is still married before her 18th birthday. This is the data story behind that number — and what it means for program design.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-val">23.3%</span>
+        <span class="hero-stat-label">Girls married before 18 (NFHS-5)</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-val">13.5M</span>
+        <span class="hero-stat-label">Women aged 20–24 married as children</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-val">SDG 5.3</span>
+        <span class="hero-stat-label">Target: Eliminate by 2030</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="narrative">
+
+  <!-- CHAPTER 1 -->
+  <div class="chapter" id="ch1">
+    <p class="chapter-num">Chapter 01 — The National Picture</p>
+    <h2>Progress is real. But 1 in 5 girls is still not enough.</h2>
+    <p class="chapter-lede">India has made meaningful strides in reducing child marriage over three decades. The national rate has fallen from 49.4% in 1993 to 23.3% in 2021 — cutting the prevalence nearly in half. That represents millions of girls whose lives were not derailed by early marriage.</p>
+    <p class="chapter-body">But the headline decline masks an uncomfortable truth: progress has slowed. Between NFHS-3 and NFHS-4 (2005–2016), the rate dropped 17.7 percentage points. Between NFHS-4 and NFHS-5 (2016–2021), it dropped just 3.5 points. The rate of reduction is decelerating — and the SDG 5.3 target of elimination by 2030 is not on track at current pace.</p>
+
+    <div class="pull-quote">
+      <p>"One in five girls and nearly one in six boys are still married below the legal age of marriage in India."</p>
+      <cite>— The Lancet Global Health, 2023 (NFHS-5 analysis across 36 states and UTs)</cite>
+    </div>
+
+    <div class="data-row">
+      <div class="data-card highlight">
+        <div class="data-val">49.4%</div>
+        <div class="data-label">Girls married before 18 in 1993 (NFHS-1)</div>
+      </div>
+      <div class="data-card">
+        <div class="data-val">44.5%</div>
+        <div class="data-label">2005 — NFHS-3</div>
+        <div class="data-delta delta-good">↓ 4.9pp</div>
+      </div>
+      <div class="data-card">
+        <div class="data-val">26.8%</div>
+        <div class="data-label">2016 — NFHS-4</div>
+        <div class="data-delta delta-good">↓ 17.7pp</div>
+      </div>
+      <div class="data-card">
+        <div class="data-val">23.3%</div>
+        <div class="data-label">2021 — NFHS-5</div>
+        <div class="data-delta delta-bad">↓ only 3.5pp</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <p class="chart-title">National child marriage trend — girls married before 18 (%)</p>
+      <p class="chart-subtitle">Women aged 20–24 years, NFHS rounds 1993–2021</p>
+      <div style="position:relative;width:100%;height:220px;"><canvas id="trendChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- CHAPTER 2 -->
+  <div class="chapter" id="ch2">
+    <p class="chapter-num">Chapter 02 — The State Story</p>
+    <h2>The national average obscures a crisis concentrated in a handful of states.</h2>
+    <p class="chapter-lede">Child marriage in India is not evenly distributed. It is geographically concentrated — with a small number of states accounting for a disproportionate share of the national burden. And within those states, the rates are not just high — they are crisis-level.</p>
+    <p class="chapter-body">West Bengal, Bihar, and Tripura each have child marriage rates above 40% — more than double the national average. Over half of all girls in India who were married as children live in just five states: Uttar Pradesh, Bihar, West Bengal, Maharashtra, and Madhya Pradesh. At the other end, states like Kerala, Himachal Pradesh, and Goa have rates below 10% — demonstrating that elimination is achievable.</p>
+
+    <div class="chart-card">
+      <p class="chart-title">State-level child marriage rates — girls married before 18 (NFHS-5, 2019–21)</p>
+      <p class="chart-subtitle">% of women aged 20–24 married before age 18. Amber line = national average (23.3%)</p>
+      <div class="state-bar-list" id="stateBars"></div>
+    </div>
+
+    <p class="chapter-body">The variation across states reveals something important for program design: child marriage is not a uniform national problem. It is a concentrated, structural problem in specific geographies — requiring targeted, locally-adapted responses rather than blanket national strategies.</p>
+  </div>
+
+  <!-- CHAPTER 3 -->
+  <div class="chapter" id="ch3">
+    <p class="chapter-num">Chapter 03 — The Drivers</p>
+    <h2>Child marriage is a symptom. Poverty, education gaps, and gender norms are the disease.</h2>
+    <p class="chapter-lede">Understanding why child marriage persists requires looking beyond the practice itself to the structural conditions that enable it. The NFHS-5 data reveals four interlocking drivers — each of which must be addressed for programs to achieve lasting impact.</p>
+
+    <div class="driver-grid">
+      <div class="driver-card">
+        <div class="driver-icon">📚</div>
+        <p class="driver-title">Girls' education</p>
+        <p class="driver-text">Each additional year of girls' education delays marriage by 0.36 years. Girls with no education are married as children at 5x the rate of educated girls.</p>
+        <p class="driver-stat">63% of uneducated girls married before 18 (Bihar)</p>
+      </div>
+      <div class="driver-card">
+        <div class="driver-icon">💰</div>
+        <p class="driver-title">Household poverty</p>
+        <p class="driver-text">Girls from the poorest wealth quintile are married as children at 6x the rate of girls from the wealthiest quintile in Bihar. Poverty drives marriage as economic strategy.</p>
+        <p class="driver-stat">54% of poorest quintile girls married before 18</p>
+      </div>
+      <div class="driver-card">
+        <div class="driver-icon">🏘️</div>
+        <p class="driver-title">Rural residence</p>
+        <p class="driver-text">Rural girls face significantly higher rates of child marriage than urban peers — 30% vs 15% nationally. Infrastructure, school access, and social norms all play a role.</p>
+        <p class="driver-stat">Rural rate 2x higher than urban nationally</p>
+      </div>
+      <div class="driver-card">
+        <div class="driver-icon">👥</div>
+        <p class="driver-title">Caste & social group</p>
+        <p class="driver-text">Scheduled Caste and Scheduled Tribe communities face higher prevalence — 49% in Bihar — reflecting intersecting vulnerabilities of caste, poverty, and geographic isolation.</p>
+        <p class="driver-stat">49% among SC/ST communities in Bihar (NFHS-5)</p>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <p class="chart-title">Child marriage by education level — women aged 20–24 (NFHS-5)</p>
+      <p class="chart-subtitle">% married before 18, by highest education level attained. Education is the single strongest protective factor.</p>
+      <div style="position:relative;width:100%;height:220px;"><canvas id="eduChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- CHAPTER 4 -->
+  <div class="chapter" id="ch4">
+    <p class="chapter-num">Chapter 04 — Program Implications</p>
+    <h2>What the evidence says about what works — and where to invest.</h2>
+    <p class="chapter-lede">The data from NFHS-5 is not just descriptive — it points toward a clear evidence base for program design. Organizations working to eliminate child marriage in India have a roadmap. The question is whether interventions are targeting the right levers, at the right scale, in the right geographies.</p>
+
+    <div class="rec-stack">
+      <div class="rec-card">
+        <div class="rec-num">01</div>
+        <div class="rec-body">
+          <p class="rec-title">Prioritize girls' secondary education — especially in Bihar, West Bengal, UP, and Jharkhand</p>
+          <p class="rec-text">The education-marriage relationship is the strongest and most consistent finding across all NFHS rounds. Programs that keep girls in school past primary level have the highest evidence base for reducing child marriage.</p>
+          <p class="rec-evidence">Evidence: OR=7.5 for no education vs higher education (UNFPA Bihar analysis)</p>
+        </div>
+      </div>
+      <div class="rec-card">
+        <div class="rec-num">02</div>
+        <div class="rec-body">
+          <p class="rec-title">Integrate economic support for families — conditional cash transfers and livelihood programs</p>
+          <p class="rec-text">Where poverty is the primary driver of early marriage, education-only programs are insufficient. Haryana's Apni Beti, Apna Dhan conditional cash transfer program demonstrates that financial incentives can meaningfully delay marriage.</p>
+          <p class="rec-evidence">Evidence: Wealth quintile odds ratio 1.5x for poorest vs richest (NFHS-5)</p>
+        </div>
+      </div>
+      <div class="rec-card">
+        <div class="rec-num">03</div>
+        <div class="rec-body">
+          <p class="rec-title">Deploy concentrated resources in highest-burden states rather than uniform national programming</p>
+          <p class="rec-text">Over half of child brides in India live in five states. Resource allocation that mirrors this geographic concentration — rather than distributing evenly — will generate significantly greater impact per dollar invested.</p>
+          <p class="rec-evidence">Evidence: 5 states account for >50% of all child marriages nationally (UNICEF 2023)</p>
+        </div>
+      </div>
+      <div class="rec-card">
+        <div class="rec-num">04</div>
+        <div class="rec-body">
+          <p class="rec-title">Engage communities, religious leaders, and families — not just girls</p>
+          <p class="rec-text">Child marriage is sustained by community norms and family decision-making. Programs that work only with girls miss the gatekeepers. Community-level norm change, including male and elder engagement, is essential for durable progress.</p>
+          <p class="rec-evidence">Evidence: Rural social norms cited as key driver across multiple NFHS rounds</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAPTER 5 -->
+  <div class="chapter" id="ch5">
+    <p class="chapter-num">Chapter 05 — The 2030 Question</p>
+    <h2>At the current pace, India will not meet its SDG 5.3 commitment.</h2>
+    <p class="chapter-lede">The Sustainable Development Goals call for the elimination of child marriage globally by 2030. India has committed to this target. But the math is unforgiving.</p>
+    <p class="chapter-body">Between 2016 and 2021, India's child marriage rate fell by just 3.5 percentage points — from 26.8% to 23.3%. To reach zero by 2030 requires a reduction of 23.3 percentage points in 9 years — more than 6x the pace of the last five years. Without significant acceleration in program investment, policy enforcement, and community-level change, the 2030 target will not be met.</p>
+
+    <div class="data-row">
+      <div class="data-card">
+        <div class="data-val">23.3%</div>
+        <div class="data-label">Current rate (NFHS-5, 2021)</div>
+      </div>
+      <div class="data-card">
+        <div class="data-val">0%</div>
+        <div class="data-label">SDG 5.3 target by 2030</div>
+      </div>
+      <div class="data-card highlight">
+        <div class="data-val">6x</div>
+        <div class="data-label">Faster reduction needed to meet 2030 target</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <p class="chart-title">Projected trajectory vs. SDG 5.3 elimination target</p>
+      <p class="chart-subtitle">Current pace vs. required pace to reach 0% by 2030</p>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#c0394f"></div>Observed trend</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#c8860a; border: 1px dashed #c8860a"></div>Required pace for SDG 5.3</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#1d9e75"></div>Current pace projection</div>
+      </div>
+      <div style="position:relative;width:100%;height:220px;"><canvas id="projChart"></canvas></div>
+    </div>
+
+    <p class="chapter-body">This gap is not inevitable. States like Rajasthan and Madhya Pradesh have demonstrated that rapid acceleration is possible — both registered reductions of nearly 10 percentage points between NFHS-4 and NFHS-5, compared to the national average of 3.5. The conditions for faster progress exist. What is needed is political will, sustained investment, and program models that address the structural drivers, not just the symptom.</p>
+  </div>
+
+</div>
+
+<!-- CLOSING -->
+<div class="closing">
+  <div class="closing-sdg">SDG Target 5.3 — Eliminate child marriage by 2030</div>
+  <h2>The data tells us where. Now programs need to act.</h2>
+  <p>Child marriage is not a uniform national problem — it is geographically concentrated, structurally driven, and responsive to the right interventions. Organizations working in Bihar, West Bengal, Jharkhand, and Uttar Pradesh have the evidence base they need to design programs that work. The question is scale and urgency.</p>
+</div>
+
+<!-- SOURCES -->
+<div class="sources-section">
+  <p class="sources-title">Data sources</p>
+  <div class="source-item"><span class="source-num">1.</span><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10805006/" target="_blank">Prevalence of girl and boy child marriage across states and UTs in India, 1993–2021 — The Lancet Global Health / PMC (2023)</a></div>
+  <div class="source-item"><span class="source-num">2.</span><a href="https://data.unicef.org/wp-content/uploads/2023/05/Ending_Child_Marriage-profile_of_progress_in_India_2023.pdf" target="_blank">Ending Child Marriage: A Profile of Progress in India (2023 update) — UNICEF</a></div>
+  <div class="source-item"><span class="source-num">3.</span><a href="https://india.unfpa.org/sites/default/files/pub-pdf/analytical_series_1_-_child_marriage_in_india_-_insights_from_nfhs-5_final_0.pdf" target="_blank">Child Marriage in India: Key Insights from the NFHS-5 — UNFPA India</a></div>
+  <div class="source-item"><span class="source-num">4.</span><a href="https://india.unfpa.org/sites/default/files/pub-pdf/analytical_series_1a_-_child_marriage_in_bihar_-_insights_from_nfhs-5_final_2.pdf" target="_blank">Child Marriage in Bihar: Key Insights from the NFHS-5 — UNFPA India</a></div>
+  <div class="source-item"><span class="source-num">5.</span><a href="https://ruralindiaonline.org/en/library/resource/national-family-health-survey-nfhs-5-2019-21-india/" target="_blank">NFHS-5 (2019–21) National Report — IIPS, Ministry of Health & Family Welfare, Government of India</a></div>
+  <div class="source-item"><span class="source-num">6.</span><a href="https://www.ideasforindia.in/topics/human-development/a-data-story-on-female-child-marriage-in-india" target="_blank">A Data Story on Female Child Marriage in India — Ideas for India</a></div>
+</div>
+
+<div class="footer">
+  Kelly Kroeper · MPH, Certified in Public Health (CPH) · Independent Research 2026 · Data: NFHS-5, UNICEF, UNFPA, The Lancet
+</div>
+
+<script>
+// READING PROGRESS BAR
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total = document.body.scrollHeight - window.innerHeight;
+  document.getElementById('readingBar').style.width = (scrolled / total * 100) + '%';
+});
+
+// SCROLL ANIMATIONS
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.chapter').forEach(c => observer.observe(c));
+
+// STATE BARS
+const states = [
+  { name: 'West Bengal', val: 42, color: '#c0394f' },
+  { name: 'Bihar', val: 41, color: '#c0394f' },
+  { name: 'Tripura', val: 40, color: '#c0394f' },
+  { name: 'Jharkhand', val: 32, color: '#d4607a' },
+  { name: 'Andhra Pradesh', val: 29, color: '#d4607a' },
+  { name: 'Rajasthan', val: 25, color: '#d4607a' },
+  { name: 'National avg', val: 23.3, color: '#c8860a' },
+  { name: 'Uttar Pradesh', val: 21, color: '#ebb3c0' },
+  { name: 'Madhya Pradesh', val: 23, color: '#ebb3c0' },
+  { name: 'Maharashtra', val: 21, color: '#ebb3c0' },
+  { name: 'Karnataka', val: 21, color: '#ebb3c0' },
+  { name: 'Punjab', val: 8, color: '#1d9e75' },
+  { name: 'Kerala', val: 6, color: '#1d9e75' },
+  { name: 'Himachal Pradesh', val: 5, color: '#1d9e75' },
+];
+const maxVal = 50;
+const container = document.getElementById('stateBars');
+states.forEach(s => {
+  const pct = (s.val / maxVal * 100).toFixed(1);
+  const avgPct = (23.3 / maxVal * 100).toFixed(1);
+  container.innerHTML += `
+    <div class="state-bar-item">
+      <span class="state-bar-label">${s.name}</span>
+      <div class="state-bar-track">
+        <div class="state-bar-fill" style="width:${pct}%;background:${s.color};">
+          <span class="state-bar-val">${s.val}%</span>
+        </div>
+        <div class="state-bar-avg" style="left:${avgPct}%"></div>
+      </div>
+    </div>`;
+});
+
+// CHARTS
+const script = document.createElement('script');
+script.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js';
+script.onload = () => {
+  const ROSE = '#c0394f', TEAL = '#1d9e75', AMBER = '#c8860a', PALE = '#f0d0d8';
+
+  // TREND
+  new Chart(document.getElementById('trendChart'), {
+    type: 'line',
+    data: {
+      labels: ['1993', '1999', '2005–06', '2015–16', '2019–21'],
+      datasets: [{
+        data: [49.4, 43.0, 44.5, 26.8, 23.3],
+        borderColor: ROSE, backgroundColor: ROSE + '15',
+        tension: 0.3, pointRadius: 6, pointHoverRadius: 8,
+        borderWidth: 2.5, fill: true,
+        pointBackgroundColor: ROSE,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.raw + '% of girls married before 18' } } },
+      scales: {
+        y: { min: 0, max: 60, ticks: { font: { size: 11 }, callback: v => v + '%' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+        x: { ticks: { font: { size: 11 } }, grid: { display: false } }
+      }
+    }
+  });
+
+  // EDUCATION
+  new Chart(document.getElementById('eduChart'), {
+    type: 'bar',
+    data: {
+      labels: ['No education', 'Primary', 'Secondary', 'Higher secondary', 'Graduate+'],
+      datasets: [{
+        data: [63, 48, 28, 12, 4],
+        backgroundColor: [ROSE, ROSE + 'cc', ROSE + '88', TEAL + 'aa', TEAL],
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.raw + '% married before 18' } } },
+      scales: {
+        y: { min: 0, max: 80, ticks: { font: { size: 11 }, callback: v => v + '%' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+        x: { ticks: { font: { size: 11 } }, grid: { display: false } }
+      }
+    }
+  });
+
+  // PROJECTION
+  new Chart(document.getElementById('projChart'), {
+    type: 'line',
+    data: {
+      labels: ['2005', '2016', '2021', '2025', '2030'],
+      datasets: [
+        {
+          label: 'Observed trend',
+          data: [44.5, 26.8, 23.3, null, null],
+          borderColor: ROSE, backgroundColor: 'transparent',
+          tension: 0.3, pointRadius: 5, borderWidth: 2.5,
+          pointBackgroundColor: ROSE,
+        },
+        {
+          label: 'Required for SDG 5.3',
+          data: [44.5, 26.8, 23.3, 12, 0],
+          borderColor: AMBER, backgroundColor: 'transparent',
+          tension: 0.3, pointRadius: 4, borderWidth: 2,
+          borderDash: [6, 4],
+          pointBackgroundColor: AMBER,
+        },
+        {
+          label: 'Current pace projection',
+          data: [null, null, 23.3, 22, 19.8],
+          borderColor: TEAL, backgroundColor: 'transparent',
+          tension: 0.3, pointRadius: 4, borderWidth: 2,
+          pointBackgroundColor: TEAL,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false, callbacks: { label: c => c.dataset.label + ': ' + (c.raw !== null ? c.raw + '%' : 'n/a') } } },
+      scales: {
+        y: { min: 0, max: 50, ticks: { font: { size: 11 }, callback: v => v + '%' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+        x: { ticks: { font: { size: 11 } }, grid: { display: false } }
+      }
+    }
+  });
+};
+script.onerror = () => console.log('Charts require internet connection.');
+document.head.appendChild(script);
+</script>
+</body>
+</html>
