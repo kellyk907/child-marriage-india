@@ -1,6 +1,6 @@
 An independent public health research project examining the prevalence, drivers, and program implications of child marriage across India's states — using data from the National Family Health Survey (NFHS-5, 2019–21), UNICEF, UNFPA, and The Lancet Global Health.
 
-🔗 **[View the live analysis](#)** ← replace with your Netlify URL
+🔗 india-child-marriage.netlify.app
 
 ---
 
